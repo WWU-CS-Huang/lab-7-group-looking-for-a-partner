@@ -1,5 +1,5 @@
 /*
- * Rowen Stiles, May 2025, Huffman Coding
+ * Rowen Stiles and Charles M., May 2025, Huffman Coding
  */
 package lab7;
 
@@ -10,42 +10,41 @@ import java.util.HashMap;
 
 
 public class Huffman {
-    public static void main(String[] args) {
-        //creates heap to start with
-        HashMap<String, Integer> charMap = new HashMap<>();
-        Heap<String,Integer> heap = new Heap<String,Integer>();
-        int charaCount = 0;
+    HashMap<Character, Integer> charMap;
+    Heap<Character,Integer> heap;
 
-        //Takes the file given in args, returns error if not found.
-        String fileName = args[0];
+    public Huffman() {
+        charMap = new HashMap<Character, Integer>();
+        heap = new Heap<Character,Integer>();
+    }
+
+    public Huffman(String fileName) {
+        this();
         File file = new File(fileName);
         Scanner scanner;
-        try{
+        try {
             scanner = new Scanner(file);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.printf("The file specified was not found at %s%s%s\n", System.getProperty("user.dir"), File.separator, fileName);
             return;
         }
 
-        while(scanner.hasNext()){
+        while (scanner.hasNext()) {
             String line = scanner.next();
-            for(int i = 0; i < line.length(); i++){
-                String character = line.substring(i,i+1);
-                System.out.println(character);
-                System.out.println(charMap.containsKey(character));
-                if(!charMap.containsKey(character)){
-                    charMap.put(character, 1);
-                }
-                else{
-                    charMap.put(character,(charMap.get(character)));
-                    System.out.println(charMap.get(character) + " and plus " + charMap.get(character) + 1);
-                }
-                charaCount++;
-            }
-        }
-        System.out.println(charaCount);
-        //charMap.dump();
+            for (char c : line.toCharArray())
+                charMap.merge(c, 1, (a, b) -> a + b); // if new addition, value is one; otherwise, value is previous plus one
+        } scanner.close();
+    }
 
-        scanner.close();
+    public int getCharacterCount() {
+        return charMap.size();
+    }
+
+    public String toString() {
+        return charMap.toString();
+    }
+
+    public static void main(String[] args) {
+        Huffman huff = new Huffman(args[0]);
     }
 }
