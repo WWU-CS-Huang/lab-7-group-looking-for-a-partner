@@ -1,6 +1,12 @@
 /*
  * Rowen Stiles and Charles M., May 2025, Huffman Coding
  */
+
+ /*
+  * Hey, I didn't expect to get a partner at all and was honestly just going to take the zero/low grade, but since
+  * you're here, I'll do my best to get an even amount of work done. You do seem to know coding much better than I
+  * do, so please feel free to change up things as you see fit. I'm rowenattack on Discord if you need to reach out!
+  */
 package lab7;
 
 import java.io.File;
