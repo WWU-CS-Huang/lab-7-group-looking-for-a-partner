@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.BitSet;
+import java.util.LinkedList;
 import heap.Heap;
 
 public class Huffman {
@@ -62,6 +63,18 @@ public class Huffman {
         } BitSet left = (BitSet) encoding.clone(), right = (BitSet) encoding.clone();
         left.set(length, false); codeMap(node.left, c, left, length+1);
         right.set(length, true); codeMap(node.right, c, right, length+1);
+    }
+
+    public Code encode(String value) {
+        BitSet data = new BitSet(value.length()); int length = 0;
+        LinkedList<Integer> bits = new LinkedList<Integer>();
+        for (char c : value.toCharArray()) {
+            Code code = codeMap.get(c); int[] ones = code.data.stream().toArray();
+            for (int i = 0; i < ones.length; ++i) bits.add(ones[i]+length);
+            length += code.length;
+        }
+        while (!bits.isEmpty()) data.set(bits.poll());
+        return new Code(data, length);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
