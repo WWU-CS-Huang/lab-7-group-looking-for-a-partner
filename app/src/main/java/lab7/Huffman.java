@@ -76,9 +76,22 @@ public class Huffman {
         while (!bits.isEmpty()) data.set(bits.poll());
         return new Code(data, length);
     }
+    public String decode(Code code) {
+        StringBuilder output = new StringBuilder();
+        Node current = root;
+        for (int i = 0; i < code.length; ++i) {
+            if (current.isLeaf()) {
+                output.append(current.value);
+                current = root;
+            } else current = code.get(i) ? current.right : current.left;
+        } return output.toString();
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         Huffman huff = new Huffman(args[0]);
+        Code code = huff.encode("feed");
+        System.out.println(code);
+        System.out.println(huff.decode(code));
     }
 
     /* Node class used to represent Huffman trees.
